@@ -1,0 +1,46 @@
+To Do:
+
+1. Organization
+- Cache organized into S sets with (ways) amount of lines.
+- Each line has a valid bit, tag, and array of int32_t's for the block.
+    - dirty bit and lru counter for keeping track of cache management inc.
+
+2. Miss Timing
+- Probably going to be done in the actual pipeline, need to ask how the pipeline stalls
+depending on what cache misses.
+
+3. Replacement
+- Set access should keep track of empty blocks. On cache access, you would iterate
+over the entire set, and then increase the lru_counter on each line. 
+
+
+4. Control Flow
+- Need to implement
+
+
+5. D4C: Dirty Deeds Done Dirt Cheap (Evictions)
+
+Block Bits
+bits [4, 0] are probably the block offset. More specifically, since addresses
+are incremented by 4, we expect 0b11100 the last three bits to give the 
+block offset. possible values are
+0b00000 (0)   - 0x0
+0b00100 (4)   - 0x4
+0b01000 (8)   - 0x8
+0b01100 (12)  - 0xC
+0b10000 (16)  - 0x10
+0b10100 (20)  - 0x14
+0b11000 (24)  - 0x18
+0b11100 (28)  - 0x1C
+
+
+New Function Design (11/23)
+Overall - could pass a "Did something flag" in each step of the pipeline so it can 
+differentiate between a bubble and a stall.
+
+cache_update() should just return the hit or miss, and something like a
+miss_update() should increment the timer so that the same block gets
+checked every cycle.
+
+Good Helpers:
+get_set() and get_tag() could be separated to eliminate the need for an outparameter
