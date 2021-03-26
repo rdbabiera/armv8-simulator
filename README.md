@@ -1,6 +1,6 @@
 # armv8-simulator
 
-CMSC 22200 Project
+Architecture Project
 This program simulates a single core ARMv8 processor by taking in assembly code 
 and processing instructions through a pipeline. It includes the following features:
   - Instruction and Data cache with 50-cycle stalling
